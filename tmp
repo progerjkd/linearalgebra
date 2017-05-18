@@ -1,0 +1,91 @@
+matrix.c: In function ‘main’:
+matrix.c:406:3: warning: passing argument 1 of ‘vecGetIndex’ makes integer from pointer without a cast [enabled by default]
+   printf("\nvecGetValue(vec,1,1,3): %f\n", vecGetIndex(vec,1,1,3));
+   ^
+matrix.c:369:5: note: expected ‘int’ but argument is of type ‘struct matrix * (*)(struct matrix *)’
+ int vecGetIndex(int i, int j, int n){
+     ^
+matrix.c:406:3: error: too many arguments to function ‘vecGetIndex’
+   printf("\nvecGetValue(vec,1,1,3): %f\n", vecGetIndex(vec,1,1,3));
+   ^
+matrix.c:369:5: note: declared here
+ int vecGetIndex(int i, int j, int n){
+     ^
+matrix.c:406:3: warning: format ‘%f’ expects argument of type ‘double’, but argument 2 has type ‘int’ [-Wformat=]
+   printf("\nvecGetValue(vec,1,1,3): %f\n", vecGetIndex(vec,1,1,3));
+   ^
+matrix.c:407:3: warning: passing argument 1 of ‘vecGetIndex’ makes integer from pointer without a cast [enabled by default]
+   printf("\nvecGetValue(vec,2,1,3): %f\n", vecGetIndex(vec,2,1,3));
+   ^
+matrix.c:369:5: note: expected ‘int’ but argument is of type ‘struct matrix * (*)(struct matrix *)’
+ int vecGetIndex(int i, int j, int n){
+     ^
+matrix.c:407:3: error: too many arguments to function ‘vecGetIndex’
+   printf("\nvecGetValue(vec,2,1,3): %f\n", vecGetIndex(vec,2,1,3));
+   ^
+matrix.c:369:5: note: declared here
+ int vecGetIndex(int i, int j, int n){
+     ^
+matrix.c:407:3: warning: format ‘%f’ expects argument of type ‘double’, but argument 2 has type ‘int’ [-Wformat=]
+   printf("\nvecGetValue(vec,2,1,3): %f\n", vecGetIndex(vec,2,1,3));
+   ^
+matrix.c:408:3: warning: passing argument 1 of ‘vecGetIndex’ makes integer from pointer without a cast [enabled by default]
+   printf("\nvecGetValue(vec,2,2,3): %f\n", vecGetIndex(vec,2,2,3));
+   ^
+matrix.c:369:5: note: expected ‘int’ but argument is of type ‘struct matrix * (*)(struct matrix *)’
+ int vecGetIndex(int i, int j, int n){
+     ^
+matrix.c:408:3: error: too many arguments to function ‘vecGetIndex’
+   printf("\nvecGetValue(vec,2,2,3): %f\n", vecGetIndex(vec,2,2,3));
+   ^
+matrix.c:369:5: note: declared here
+ int vecGetIndex(int i, int j, int n){
+     ^
+matrix.c:408:3: warning: format ‘%f’ expects argument of type ‘double’, but argument 2 has type ‘int’ [-Wformat=]
+   printf("\nvecGetValue(vec,2,2,3): %f\n", vecGetIndex(vec,2,2,3));
+   ^
+matrix.c:409:3: warning: passing argument 1 of ‘vecGetIndex’ makes integer from pointer without a cast [enabled by default]
+   printf("\nvecGetValue(vec,3,1,3): %f\n", vecGetIndex(vec,3,1,3));
+   ^
+matrix.c:369:5: note: expected ‘int’ but argument is of type ‘struct matrix * (*)(struct matrix *)’
+ int vecGetIndex(int i, int j, int n){
+     ^
+matrix.c:409:3: error: too many arguments to function ‘vecGetIndex’
+   printf("\nvecGetValue(vec,3,1,3): %f\n", vecGetIndex(vec,3,1,3));
+   ^
+matrix.c:369:5: note: declared here
+ int vecGetIndex(int i, int j, int n){
+     ^
+matrix.c:409:3: warning: format ‘%f’ expects argument of type ‘double’, but argument 2 has type ‘int’ [-Wformat=]
+   printf("\nvecGetValue(vec,3,1,3): %f\n", vecGetIndex(vec,3,1,3));
+   ^
+matrix.c:410:3: warning: passing argument 1 of ‘vecGetIndex’ makes integer from pointer without a cast [enabled by default]
+   printf("\nvecGetValue(vec,3,2,3): %f\n", vecGetIndex(vec,3,2,3));
+   ^
+matrix.c:369:5: note: expected ‘int’ but argument is of type ‘struct matrix * (*)(struct matrix *)’
+ int vecGetIndex(int i, int j, int n){
+     ^
+matrix.c:410:3: error: too many arguments to function ‘vecGetIndex’
+   printf("\nvecGetValue(vec,3,2,3): %f\n", vecGetIndex(vec,3,2,3));
+   ^
+matrix.c:369:5: note: declared here
+ int vecGetIndex(int i, int j, int n){
+     ^
+matrix.c:410:3: warning: format ‘%f’ expects argument of type ‘double’, but argument 2 has type ‘int’ [-Wformat=]
+   printf("\nvecGetValue(vec,3,2,3): %f\n", vecGetIndex(vec,3,2,3));
+   ^
+matrix.c:411:3: warning: passing argument 1 of ‘vecGetIndex’ makes integer from pointer without a cast [enabled by default]
+   printf("\nvecGetValue(vec,3,3,3): %f\n", vecGetIndex(vec,3,3,3));
+   ^
+matrix.c:369:5: note: expected ‘int’ but argument is of type ‘struct matrix * (*)(struct matrix *)’
+ int vecGetIndex(int i, int j, int n){
+     ^
+matrix.c:411:3: error: too many arguments to function ‘vecGetIndex’
+   printf("\nvecGetValue(vec,3,3,3): %f\n", vecGetIndex(vec,3,3,3));
+   ^
+matrix.c:369:5: note: declared here
+ int vecGetIndex(int i, int j, int n){
+     ^
+matrix.c:411:3: warning: format ‘%f’ expects argument of type ‘double’, but argument 2 has type ‘int’ [-Wformat=]
+   printf("\nvecGetValue(vec,3,3,3): %f\n", vecGetIndex(vec,3,3,3));
+   ^
