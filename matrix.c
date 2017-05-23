@@ -405,3 +405,14 @@ int vecGetUpperIndex(int i, int j, int n){
 
 	return indice;
 }
+
+int matrixSwapLines(matrix *matrix, int n, int x, int y){
+
+	double tmp, tmp2;
+	for (int i=1; i<=n; i++){
+		getElement(matrix, x, i, &tmp);
+		getElement(matrix, y, i, &tmp2);
+		setElement(matrix, x, i, tmp2);
+		setElement(matrix, y, i, tmp);
+	}
+}

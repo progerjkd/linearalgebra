@@ -45,8 +45,16 @@ int main() {
 
 	decomposicaoLU(A, n, L, U);
 
-
+/*
+	printf("\ngauss(L, y, b, n):\n");
 	gauss(L, y, b, n);
+	printf("\nretroSubstituicao(U, x, y, n):\n");
 	retroSubstituicao(U, x, y, n);
-
+*/
+	printf("\ngauss(L, y, b, n):\n");
+	gaussP(L, y, b, n);
+	printf("\nretroSubstituicao(L, y, b, n):\n");
+	retroSubstituicao(L, y, b, n);
+	printf("\nretroSubstituicao(U, x, y, n):\n");
+	retroSubstituicao(U, x, y, n);
 }

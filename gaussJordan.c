@@ -1,12 +1,12 @@
 #include "matrix.h"
 #include <math.h>
 
-int gaussP(matrix *A, matrix *x, matrix *b, int n) {
+int gaussJordan(matrix *A, matrix *x, matrix *b, int n) {
 
 	int i, j, k;
 	double soma, alfa;
 
-	printf("\nEntrada - Eliminação de Gauss com pivoteamento\n");
+	printf("\nEntrada - Eliminação de Gauss-Jordan\n");
 
 	printf("\nA =\n");
 	printMatrix(A);
@@ -18,7 +18,7 @@ int gaussP(matrix *A, matrix *x, matrix *b, int n) {
 	printMatrix(b);
 
 
-	for(k=1; k<=n-1; k++){
+	for(k=1; k<=n; k++){
 		// escolha do pivô
 		double max = 0;
 		int kk = 0;
@@ -52,44 +52,40 @@ int gaussP(matrix *A, matrix *x, matrix *b, int n) {
 		*/
 
 
+		double a_kk;
+		getElement(A, k, k, &a_kk);
 
-		for(i=k+1; i<=n; i++){
-			double m, a_ik, a_kk;
-			getElement(A, i, k, &a_ik);
-			getElement(A, k, k, &a_kk);
-			m = a_ik/a_kk;
-			//printf("m = a_%d%d/a_%d%d => %f = %f/%f\n", i, k, k, k, m, a_ik, a_kk);
-
-			for(j=k+1; j<=n+1; j++){
-				double a_ij, a_kj;
-				getElement(A, i, j, &a_ij);
-				getElement(A, k, j, &a_kj);
-
-				setElement(A, i, j, a_ij - m * a_kj);
-			}
-
-			double b_i, b_k;
-			getElement(b, i, 1, &b_i);
-			getElement(b, k, 1, &b_k);
-
-			setElement(b, i, 1, b_i - m * b_k);
+		for(j=k; j<=n; j++){
+			double a_kj;
+			getElement(A, k, j, &a_kj);
+			setElement(A, k, j, a_kj / a_kk);
 		}
 
-		/*
-		printf("\nPasso %d - fim:\n \nA =\n",k);
-		printMatrix(A);
+		double b_k;
+		getElement(b, k, 1, &b_k);
+		setElement(b, k, 1, b_k / a_kk);
 
-		printf("\nx =\n");
-		printMatrix(x);
-
-		printf("\nb =\n");
-		printMatrix(b);
-		*/
+		for(i=1; i<=n; i++){
+			if(i != k){
+				double a_ik;
+				getElement(A, i, k, &a_ik);
+				for(j=k; j<=n; j++){
+					double a_ij, a_kj;
+					getElement(A, i, j, &a_ij);
+					getElement(A, k, j, &a_kj);
+					setElement(A, i, j, a_ij - a_kj * a_ik);
+				}
+				double b_i, b_k;
+				getElement(b, i, 1, &b_i);
+				getElement(b, k, 1, &b_k);
+				setElement(b, i, 1, b_i - b_k * a_ik);
+			}
+		}
 
 	}
 
 
-	printf("\nSaída - Eliminação de Gauss com pivoteamento\n");
+	printf("\nSaída - Eliminação de Gauss-Jordan\n");
 
 	printf("\nA =\n");
 	printMatrix(A);

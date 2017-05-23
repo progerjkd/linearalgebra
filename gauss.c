@@ -5,25 +5,6 @@ int gauss(matrix *A, matrix *x, matrix *b, int n) {
 	int i, j, k;
 	double soma, alfa;
 
-/*	A = newMatrix(n, n);
-	b = newMatrix(n, 1);
-	x = newMatrix(n, 1);
-
-	setElement(A, 1, 1,   1);
-	setElement(A, 1, 2,   1);
-	setElement(A, 1, 3,  -2);
-	setElement(A, 2, 1,  -2);
-	setElement(A, 2, 2,   2);
-	setElement(A, 2, 3,  -3);
-	setElement(A, 3, 1,   3);
-	setElement(A, 3, 2,  -1);
-	setElement(A, 3, 3,   2);
-
-	setElement(b, 1, 1,   0);
-	setElement(b, 2, 1,   2);
-	setElement(b, 3, 1,  12);
-*/
-
 	printf("\nEntrada - Eliminação de Gauss\n");
 
 	printf("\nA =\n");
