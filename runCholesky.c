@@ -12,37 +12,19 @@ int main() {
 	St = newMatrix(n, n);
 	y = newMatrix(n, 1);
 
-/*
-	setElement(A, 1, 1,   5);
-	setElement(A, 1, 2,   2);
-	setElement(A, 1, 3,   3);
-	setElement(A, 2, 1,  -2);
-	setElement(A, 2, 2,   1);
-	setElement(A, 2, 3,   2);
-	setElement(A, 3, 1,   1);
-	setElement(A, 3, 2,   4);
-	setElement(A, 3, 3,  -1);
-
-	setElement(b, 1, 1,  10);
-	setElement(b, 2, 1,   4);
-	setElement(b, 3, 1,   3);
-
-	gauss(A, x, b, n);
-*/
-
 	setElement(A, 1, 1,   1);
-	setElement(A, 1, 2,   2);
-	setElement(A, 1, 3,   1);
-	setElement(A, 2, 1,   2);
-	setElement(A, 2, 2,   5);
-	setElement(A, 2, 3,   1);
-	setElement(A, 3, 1,   1);
-	setElement(A, 3, 2,   1);
+	setElement(A, 1, 2,   1);
+	setElement(A, 1, 3,   0);
+	setElement(A, 2, 1,   1);
+	setElement(A, 2, 2,   2);
+	setElement(A, 2, 3,  -1);
+	setElement(A, 3, 1,   0);
+	setElement(A, 3, 2,  -1);
 	setElement(A, 3, 3,   3);
 
-	setElement(b, 1, 1,   4);
-	setElement(b, 2, 1,   9);
-	setElement(b, 3, 1,   4);
+	setElement(b, 1, 1,   2);
+	setElement(b, 2, 1,   1);
+	setElement(b, 3, 1,   5);
 
 	decomposicaoCholesky(A, S, St, n);
 
@@ -53,7 +35,7 @@ int main() {
 	retroSubstituicao(U, x, y, n);
 	
 */
-	printf("\ngauss(St, y, b, n):\n");
+	printf("\ngaussP(St, y, b, n):\n");
 	gaussP(St, y, b, n);
 	printf("\nretroSubstituicao(St, y, b, n):\n");
 	retroSubstituicao(St, y, b, n);
