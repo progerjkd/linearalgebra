@@ -21,6 +21,7 @@ int decomposicaoCholesky(matrix *A, matrix *S,  matrix *St, int n) {
 		return -1;
 	}
 
+	// critério de Sylvestre
 	for(k=1; k<=A->rows; k++){
 		matrix *menor;
 		menor = newMatrix(k, k);
@@ -36,24 +37,6 @@ int decomposicaoCholesky(matrix *A, matrix *S,  matrix *St, int n) {
 			return -1;
 		}
 	}
-/*
-	matrix *z, *prod;
-	double dot;
-	z  = newMatrix(A->rows, 1);
-	for(i=1; i<=z->rows; i++)
-		setElement(z, i, 1, 1);
-
-	printf("\nz =\n");
-	printMatrix(z);
-	prod = newMatrix(A->rows, 1);
-
-	product(A, z, prod);
-	printf("\nproduct(A, z, prod):\n");
-	printMatrix(prod);
-	dotProduct(prod, z, &dot);
-	printf("\ndotProduct(prod, z, dot): %f\n", dot);
-
-	*/
 
 	for (j=1; j<=n; j++){
 		double A_jj;

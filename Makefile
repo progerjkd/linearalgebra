@@ -20,7 +20,7 @@ runCholesky: matrix.o decomposicaoCholesky.o gaussP.o retroSubstituicao.o laplac
 	gcc runCholesky.c matrix.o  decomposicaoCholesky.o gaussP.o  retroSubstituicao.o laplace.o -o runCholesky $(LDFLAGS)
 
 runLaplace: matrix.o laplace.o
-	gcc runLaplace.c matrix.o laplace.o -o runLaplace
+	gcc runLaplace.c matrix.o laplace.o -o runLaplace $(LIBS)
 
 
 
