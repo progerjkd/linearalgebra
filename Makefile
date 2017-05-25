@@ -2,7 +2,7 @@ LIBS=-lm
 LDFLAGS=$(LIBS)
 CPPFLAGS="-std=c99"
 
-all: runGauss runGaussP runGaussJordan runLU runCholesky
+all: runGauss runGaussP runGaussJordan runLU runCholesky runLaplace
 
 runGauss: matrix.o gauss.o
 	gcc runGauss.c matrix.o  gauss.o -o runGauss
@@ -16,8 +16,11 @@ runGaussJordan: matrix.o gaussJordan.o
 runLU: matrix.o decomposicaoLU.o gaussP.o retroSubstituicao.o
 	gcc runLU.c matrix.o decomposicaoLU.o gaussP.o retroSubstituicao.o -o runLU
 
-runCholesky: matrix.o decomposicaoCholesky.o gaussP.o retroSubstituicao.o
-	gcc runCholesky.c matrix.o  decomposicaoCholesky.o gaussP.o  retroSubstituicao.o -o runCholesky $(LDFLAGS)
+runCholesky: matrix.o decomposicaoCholesky.o gaussP.o retroSubstituicao.o laplace.o
+	gcc runCholesky.c matrix.o  decomposicaoCholesky.o gaussP.o  retroSubstituicao.o laplace.o -o runCholesky $(LDFLAGS)
+
+runLaplace: matrix.o laplace.o
+	gcc runLaplace.c matrix.o laplace.o -o runLaplace
 
 
 
@@ -49,7 +52,10 @@ decomposicaoLU.o:
 decomposicaoCholesky.o:
 	gcc -c decomposicaoCholesky.c
 
+laplace.o:
+	gcc -c laplace.c
+
 
 
 clean:
-	-rm -f *.o runGauss runGaussP runGaussJordan runLU runCholesky
+	-rm -f *.o runGauss runGaussP runGaussJordan runLU runCholesky runLaplace

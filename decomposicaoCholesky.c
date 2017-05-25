@@ -21,6 +21,40 @@ int decomposicaoCholesky(matrix *A, matrix *S,  matrix *St, int n) {
 		return -1;
 	}
 
+	for(k=1; k<=A->rows; k++){
+		matrix *menor;
+		menor = newMatrix(k, k);
+		
+		menorPrincipal(A, menor, k);
+		/*
+		printf("\nA%d =\n", k);
+		printMatrix(menor);
+		printf("det|A%d| = %f\n", k, laplace(menor));
+		*/
+		if(laplace(menor) <= 0){
+			printf("Matriz A não é positiva definida. Abortando a decomposição de Cholesky...\n");
+			return -1;
+		}
+	}
+/*
+	matrix *z, *prod;
+	double dot;
+	z  = newMatrix(A->rows, 1);
+	for(i=1; i<=z->rows; i++)
+		setElement(z, i, 1, 1);
+
+	printf("\nz =\n");
+	printMatrix(z);
+	prod = newMatrix(A->rows, 1);
+
+	product(A, z, prod);
+	printf("\nproduct(A, z, prod):\n");
+	printMatrix(prod);
+	dotProduct(prod, z, &dot);
+	printf("\ndotProduct(prod, z, dot): %f\n", dot);
+
+	*/
+
 	for (j=1; j<=n; j++){
 		double A_jj;
 		getElement(A, j, j, &A_jj);

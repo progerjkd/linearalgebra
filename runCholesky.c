@@ -12,19 +12,19 @@ int main() {
 	St = newMatrix(n, n);
 	y = newMatrix(n, 1);
 
-	setElement(A, 1, 1,   1);
-	setElement(A, 1, 2,   1);
-	setElement(A, 1, 3,   0);
-	setElement(A, 2, 1,   1);
-	setElement(A, 2, 2,   2);
-	setElement(A, 2, 3,  -1);
-	setElement(A, 3, 1,   0);
-	setElement(A, 3, 2,  -1);
-	setElement(A, 3, 3,   3);
+	setElement(A, 1, 1,   4);
+	setElement(A, 1, 2,  -2);
+	setElement(A, 1, 3,   2);
+	setElement(A, 2, 1,  -2);
+	setElement(A, 2, 2,  10);
+	setElement(A, 2, 3,  -7);
+	setElement(A, 3, 1,   2);
+	setElement(A, 3, 2,  -7);
+	setElement(A, 3, 3,  30);
 
-	setElement(b, 1, 1,   2);
-	setElement(b, 2, 1,   1);
-	setElement(b, 3, 1,   5);
+	setElement(b, 1, 1,   6);
+	setElement(b, 2, 1,  -3);
+	setElement(b, 3, 1,  78);
 
 	decomposicaoCholesky(A, S, St, n);
 

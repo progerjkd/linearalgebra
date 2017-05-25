@@ -110,3 +110,5 @@ double vecGetUpperValue(matrix * vec, int i, int j, int n);
 int vecGetLowerIndex(int i, int j, int n);
 
 int vecGetUpperIndex(int i, int j, int n);
+
+double laplace(matrix *A);

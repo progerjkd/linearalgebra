@@ -416,3 +416,19 @@ int matrixSwapLines(matrix *matrix, int n, int x, int y){
 		setElement(matrix, y, i, tmp);
 	}
 }
+
+// copia o menor principal de ordem n da matriz A para a matriz B
+int menorPrincipal(matrix *A, matrix *B, int n){
+	int i, j;
+//	B = newMatrix(A->rows - 1, A->cols - 1);
+	for(i=1; i<=n; i++){
+		for(j=1; j<=n; j++){
+			double A_ij;
+			getElement(A, i, j, &A_ij);
+			setElement(B, i, j, A_ij);
+		}
+	}
+}
+
+// IMPLEMENTAR POSTO
+// IMPLEMENTAR NORMA
