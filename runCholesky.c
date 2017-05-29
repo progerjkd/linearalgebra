@@ -13,19 +13,20 @@ int main() {
 	y = newMatrix(n, 1);
 
 	setElement(A, 1, 1,   4);
-	setElement(A, 1, 2,  -2);
-	setElement(A, 1, 3,   2);
-	setElement(A, 2, 1,  -2);
+	setElement(A, 1, 2,   2);
+	setElement(A, 1, 3,  -4);
+	setElement(A, 2, 1,   2);
 	setElement(A, 2, 2,  10);
-	setElement(A, 2, 3,  -7);
-	setElement(A, 3, 1,   2);
-	setElement(A, 3, 2,  -7);
-	setElement(A, 3, 3,  30);
+	setElement(A, 2, 3,   4);
+	setElement(A, 3, 1,  -4);
+	setElement(A, 3, 2,   4);
+	setElement(A, 3, 3,   9);
 
 	setElement(b, 1, 1,   6);
 	setElement(b, 2, 1,  -3);
 	setElement(b, 3, 1,  78);
 
+	printf("\ndecomposicaoCholesky(A, S, St, n)\n");
 	decomposicaoCholesky(A, S, St, n);
 
 /*

@@ -112,3 +112,23 @@ int vecGetLowerIndex(int i, int j, int n);
 int vecGetUpperIndex(int i, int j, int n);
 
 double laplace(matrix *A);
+
+double norma(matrix *A, int p);
+
+double normaInf(matrix *A);
+
+double normaMatricial(matrix *A, int p);
+
+double normaMatricialInf(matrix *A);
+
+double normaMatricial1(matrix *A);
+
+int productByScalar(matrix *A, double x, matrix *prod);
+
+int divisionByScalar(matrix *A, double x, matrix *div);
+
+int subtraction(matrix *A, matrix *B, matrix *sub);
+
+int division(matrix *A, matrix *B, matrix *div);
+
+int metodoDasPotencias(matrix *A, matrix *z0, double tol, int maxit, matrix **_z, double *_lambda);

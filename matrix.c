@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #define ELEM(mtx, row, col) \
   mtx->data[(col-1) * mtx->rows + (row-1)]
@@ -129,7 +130,8 @@ int printMatrix(matrix * mtx) {
       //  - either a - if negative or a space if positive
       //  - at least 3 spaces before the .
       //  - precision to the hundredths place
-      printf("% 6.2f ", ELEM(mtx, row, col));
+      //printf("% 6.2f ", ELEM(mtx, row, col));
+      printf("% 10.4f ", ELEM(mtx, row, col));
     }
     // separate rows by newlines
     printf("\n");
@@ -239,6 +241,7 @@ int identity(matrix * m) {
   return 0;
 }
 
+
 int isSquare(matrix * mtx) {
   return mtx && mtx->rows == mtx->cols;
 }
@@ -294,6 +297,50 @@ int diagonalContainsZero(matrix * mtx) {
 }
 
 //  My code begins here
+
+int subtraction(matrix *A, matrix *B, matrix *sub){
+	for(int i=1; i<=A->rows; i++){
+		for(int j=1; j<=A->cols; j++){
+			double A_ij;
+			double B_ij;
+			getElement(A, i, j, &A_ij);
+			getElement(B, i, j, &B_ij);
+			setElement(sub, i, j, A_ij - B_ij);
+		}
+	}
+}
+
+int division(matrix *A, matrix *B, matrix *div){
+	for(int i=1; i<=A->rows; i++){
+		for(int j=1; j<=A->cols; j++){
+			double A_ij;
+			double B_ij;
+			getElement(A, i, j, &A_ij);
+			getElement(B, i, j, &B_ij);
+			setElement(div, i, j, A_ij / B_ij);
+		}
+	}
+}
+
+int productByScalar(matrix *A, double x, matrix *prod){
+	for(int i=1; i<=A->rows; i++){
+		for(int j=1; j<=A->cols; j++){
+			double A_ij;
+			getElement(A, i, j, &A_ij);
+			setElement(prod, i, j, A_ij * x);
+		}
+	}
+}
+
+int divisionByScalar(matrix *A, double x, matrix *div){
+	for(int i=1; i<=A->rows; i++){
+		for(int j=1; j<=A->cols; j++){
+			double A_ij;
+			getElement(A, i, j, &A_ij);
+			setElement(div, i, j, A_ij / x);
+		}
+	}
+}
 
 int isSymmetric(matrix * mtx) {
   if (!isSquare(mtx)) return 0;
@@ -419,16 +466,112 @@ int matrixSwapLines(matrix *matrix, int n, int x, int y){
 
 // copia o menor principal de ordem n da matriz A para a matriz B
 int menorPrincipal(matrix *A, matrix *B, int n){
-	int i, j;
+	
 //	B = newMatrix(A->rows - 1, A->cols - 1);
-	for(i=1; i<=n; i++){
-		for(j=1; j<=n; j++){
+	for(int i=1; i<=n; i++){
+		for(int j=1; j<=n; j++){
 			double A_ij;
 			getElement(A, i, j, &A_ij);
 			setElement(B, i, j, A_ij);
 		}
 	}
 }
+
+double norma(matrix *A, int p){
+
+	double sum = 0;
+	for(int i=1; i<=A->rows; i++){
+		double A_i;
+		getElement(A, i, 1, &A_i);
+		sum += pow(fabs(A_i), p);
+	}
+
+/*	printf("1/%d = %f\n", p, (double)1/p);
+	printf("pow(1/%d, %f) = %f\n", p, sum, pow(sum, (double)1/p));
+*/
+	return pow(sum,(double)1/p);
+}
+
+double normaInf(matrix *A){
+
+	int i;
+	double maior;
+
+	getElement(A, 1, 1, &maior);
+
+	for(i=1; i<=A->rows; i++){
+		double A_i;
+		getElement(A, i, 1, &A_i);
+		A_i = fabs(A_i);
+		if(A_i > maior)
+			maior = A_i;
+	}
+
+	return maior;
+}
+
+double normaMatricial(matrix *A, int p){
+
+	double sum = 0;
+	for(int i=1; i<=A->rows; i++){
+		for(int j=1; j<=A->cols; j++){
+			double A_ij;
+			getElement(A, i, j, &A_ij);
+			sum += pow(fabs(A_ij), p);
+		}
+	}
+
+/*	printf("1/%d = %f\n", p, (double)1/p);
+	printf("pow(1/%d, %f) = %f\n", p, sum, pow(sum, (double)1/p));
+*/
+	return pow(sum,(double)1/p);
+}
+
+double normaMatricialInf(matrix *A){
+
+	double maior = 0;
+
+//	getElement(A, 1, 1, &maior);
+
+	for(int i=1; i<=A->rows; i++){
+		double sumRow = 0;
+
+		for(int j=1; j<=A->cols; j++){
+			double A_ij;
+			getElement(A, i, j, &A_ij);
+			sumRow += fabs(A_ij);
+		}
+			if(sumRow > maior)
+				maior = sumRow;
+	}
+
+	return maior;
+}
+
+double normaMatricial1(matrix *A){
+
+	double maior = 0;
+
+//	getElement(A, 1, 1, &maior);
+
+	for(int j=1; j<=A->cols; j++){
+		double sumCol = 0;
+
+		for(int i=1; i<=A->rows; i++){
+			double A_ij;
+			getElement(A, i, j, &A_ij);
+			sumCol += fabs(A_ij);
+		}
+			if(sumCol > maior)
+				maior = sumCol;
+	}
+
+	return maior;
+}
+
+
+// IMPLEMENTAR POSTO
+// IMPLEMENTAR NORMA
 
 // IMPLEMENTAR POSTO
 // IMPLEMENTAR NORMA

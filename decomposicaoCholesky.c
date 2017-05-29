@@ -22,21 +22,24 @@ int decomposicaoCholesky(matrix *A, matrix *S,  matrix *St, int n) {
 	}
 
 	// critério de Sylvestre
+	printf("\nCálculo dos menores principais (critério de Sylvestre)...\n");
 	for(k=1; k<=A->rows; k++){
 		matrix *menor;
 		menor = newMatrix(k, k);
 		
 		menorPrincipal(A, menor, k);
-		/*
+		
 		printf("\nA%d =\n", k);
 		printMatrix(menor);
 		printf("det|A%d| = %f\n", k, laplace(menor));
-		*/
+		
 		if(laplace(menor) <= 0){
 			printf("Matriz A não é positiva definida. Abortando a decomposição de Cholesky...\n");
 			return -1;
 		}
 	}
+
+	printf("\nA matriz A é positiva definida.\n");
 
 	for (j=1; j<=n; j++){
 		double A_jj;
@@ -83,4 +86,13 @@ int decomposicaoCholesky(matrix *A, matrix *S,  matrix *St, int n) {
 
 	printf("\nSt =\n");
 	printMatrix(St);
+
+	printf("\nCálculo do determinante de A usando a decomposição obtida\n");
+	printf("\nA = St S\n");
+	double detA = laplace(A), detSt = laplace(St), detS = laplace(S);
+	
+	printf("det|A| = det|St| * det|S| \ndet|A| = %f * %f \ndet|A| = %f\n", detSt, detS, detSt * detS);
+
+
+
 }
