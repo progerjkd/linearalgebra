@@ -132,3 +132,9 @@ int subtraction(matrix *A, matrix *B, matrix *sub);
 int division(matrix *A, matrix *B, matrix *div);
 
 int metodoDasPotencias(matrix *A, matrix *z0, double tol, int maxit, matrix **_z, double *_lambda);
+
+matrix* matrixRowToVector(matrix *A, int i);
+
+matrix* matrixColToVector(matrix *A, int j);
+
+int jacobi(matrix *A, matrix *e, matrix *V);

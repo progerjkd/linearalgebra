@@ -569,6 +569,31 @@ double normaMatricial1(matrix *A){
 	return maior;
 }
 
+matrix* matrixRowToVector(matrix *A, int i){
+
+	matrix *vector = newMatrix(A->cols, 1);
+
+	for(int j=1; j<=A->cols; j++){
+		double A_ij;
+		getElement(A, i, j, &A_ij);
+		setElement(vector, j, 1, A_ij);
+	}
+
+	return vector;
+}
+
+matrix* matrixColToVector(matrix *A, int j){
+
+	matrix *vector = newMatrix(A->rows, 1);
+
+	for(int i=1; i<=A->rows; i++){
+		double A_ij;
+		getElement(A, i, j, &A_ij);
+		setElement(vector, i, 1, A_ij);
+	}
+
+	return vector;
+}
 
 // IMPLEMENTAR POSTO
 // IMPLEMENTAR NORMA

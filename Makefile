@@ -2,7 +2,7 @@ LIBS=-lm
 LDFLAGS=$(LIBS)
 CPPFLAGS="-std=c99"
 
-all: runGauss runGaussP runGaussJordan runLU runCholesky runLaplace runMetodoDasPotencias ascii
+all: runGauss runGaussP runGaussJordan runLU runCholesky runLaplace runMetodoDasPotencias runJacobi ascii
 
 runGauss: matrix.o gauss.o
 	gcc runGauss.c matrix.o  gauss.o -o runGauss $(LDFLAGS)
@@ -24,6 +24,9 @@ runLaplace: matrix.o laplace.o
 
 runMetodoDasPotencias: metodoDasPotencias.o
 	gcc runMetodoDasPotencias.c matrix.o metodoDasPotencias.o -o runMetodoDasPotencias $(LDFLAGS)
+
+runJacobi: jacobi.o
+	gcc runJacobi.c matrix.o jacobi.o -o runJacobi $(LDFLAGS) $(CPPFLAGS)
 
 ascii:
 	gcc ascii.c -o ascii
@@ -64,7 +67,8 @@ laplace.o:
 metodoDasPotencias.o:
 	gcc -c metodoDasPotencias.c $(CPPFLAGS)
 
-
+jacobi.o:
+	gcc -c jacobi.c $(CPPFLAGS)
 
 clean:
-	-rm -f *.o runGauss runGaussP runGaussJordan runLU runCholesky runLaplace runMetodoDaPotencia ascii 
+	-rm -f *.o runGauss runGaussP runGaussJordan runLU runCholesky runLaplace runMetodoDaPotencia runJacobi ascii 
