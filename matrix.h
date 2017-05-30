@@ -138,3 +138,5 @@ matrix* matrixRowToVector(matrix *A, int i);
 matrix* matrixColToVector(matrix *A, int j);
 
 int jacobi(matrix *A, matrix *e, matrix *V);
+
+void householder(matrix *M, matrix *R, matrix *Q);
