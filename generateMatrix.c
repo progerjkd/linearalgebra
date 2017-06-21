@@ -93,9 +93,9 @@ int main(int argc, char *argv[]) {
 		fprintf(fp, "\n");
 	}
 
-	fclose(fp);
 
 	if(_symmetric){
+
 		matrix *triu  = newMatrix(A->rows, A->cols);
 		matrix *tril  = newMatrix(A->rows, A->cols);
 		matrix *triuT = newMatrix(A->rows, A->cols);
@@ -110,6 +110,7 @@ int main(int argc, char *argv[]) {
 		sum(tmp1, triuT, tmp2);
 		A = tmp2;
 
+		fclose(fp);
 		fp = fopen(output, "w");
 
 		if(fp == NULL){

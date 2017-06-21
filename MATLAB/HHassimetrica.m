@@ -1,12 +1,10 @@
 % assim�trica
 clc; clear;
 A = [ 4 6 7 2; 1 2 0 1; -2 0 3 -2; 2 1 -2 -1]
-%A = rand(4);
+A = rand(4);
 
 disp('Transforma��o de Householder: (obtemos uma matrix de Hessenberg)')
 HH = householder(A)
-HH2 = HH;
-
 for i=1:50,
 [Q,R] = qr(HH); HH = R*Q;
 end
@@ -36,9 +34,5 @@ end
 % comparando os valores obtidos do nosso algoritmo com os valores da fun��o
 % eig() do MATLAB
 
-disp('qr2:')
-eps = 1e-10;
-qr2(HH2, eps)
 
-disp('eig:')
 eig(A)

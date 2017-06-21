@@ -12,7 +12,7 @@ int loadMatrix(matrix **A, char *input){
 		exit(1);
 	}
 
-	char line[2048];
+	char line[204800];
 
 	// calculating the number of rows
 	int numRows = 0;
