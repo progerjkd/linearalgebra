@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <complex.h>
 
 typedef struct {
   int rows;
@@ -83,6 +84,10 @@ int areEqual(matrix * mtx1, matrix * mtx2);
  */
 int dotProduct(matrix * v1, matrix * v2, double * prod);
 
+void subMatrix(matrix *A, int startRow, int endRow, int startCol, int endCol, matrix *B);
+
+int subtractionByScalar(matrix *A, double x, matrix *sub);
+
 int identity(matrix * m);
 
 int isSquare(matrix * mtx);
@@ -139,4 +144,36 @@ matrix* matrixColToVector(matrix *A, int j);
 
 int jacobi(matrix *A, matrix *e, matrix *V);
 
-void householder(matrix *M, matrix *R, matrix *Q);
+void qr(matrix *M, matrix *Q, matrix *R);
+
+void copyColumn(matrix *A, matrix *c, int j);
+
+void copyNColumn(matrix *A, matrix *c, int n, int j);
+
+int tolerance(matrix *A, double tol);
+
+void householder(matrix *A, matrix *HH);
+
+void diagonalToVector(matrix *A, matrix *v);
+
+typedef struct {
+	double complex x1;
+	double complex x2;
+} _eqSegGrau;
+
+_eqSegGrau eqSegGrau(double a, double b, double c);
+
+typedef struct {
+	double min;
+	int pos;
+} _minElemVec;
+
+_minElemVec getMinElemVec(matrix *A, int col);
+
+void matrixAbs(matrix *A, matrix *B);
+
+int loadMatrix(matrix **A, char *input);
+
+int getLowerTriangular(matrix *A, matrix *B, int k);
+
+int getUpperTriangular(matrix *A, matrix *B, int k);

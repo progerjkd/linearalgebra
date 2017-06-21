@@ -1,15 +1,17 @@
-% assimétrica
+% assimï¿½trica
 clc; clear;
-%A = [ 4 6 7 2; 1 2 0 1; -2 0 3 -2; 2 1 -2 -1]
-A = rand(4);
+A = [ 4 6 7 2; 1 2 0 1; -2 0 3 -2; 2 1 -2 -1]
+%A = rand(4);
 
-disp('Transformação de Householder: (obtemos uma matrix de Hessenberg)')
+disp('Transformaï¿½ï¿½o de Householder: (obtemos uma matrix de Hessenberg)')
 HH = householder(A)
+HH2 = HH;
+
 for i=1:50,
 [Q,R] = qr(HH); HH = R*Q;
 end
 
-disp('Matriz com dentes (ou não) abaixo da diagonal:')
+disp('Matriz com dentes (ou nï¿½o) abaixo da diagonal:')
 HH
 
 epsilon = 0.001;
@@ -31,8 +33,12 @@ while (i <= n)
     i = i + 1;
 end
 
-% comparando os valores obtidos do nosso algoritmo com os valores da função
+% comparando os valores obtidos do nosso algoritmo com os valores da funï¿½ï¿½o
 % eig() do MATLAB
 
+disp('qr2:')
+eps = 1e-10;
+qr2(HH2, eps)
 
+disp('eig:')
 eig(A)

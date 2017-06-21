@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <complex.h>
 
 #define ELEM(mtx, row, col) \
   mtx->data[(col-1) * mtx->rows + (row-1)]
@@ -322,6 +323,26 @@ int division(matrix *A, matrix *B, matrix *div){
 	}
 }
 
+int sumByScalar(matrix *A, double x, matrix *sum){
+	for(int i=1; i<=A->rows; i++){
+		for(int j=1; j<=A->cols; j++){
+			double A_ij;
+			getElement(A, i, j, &A_ij);
+			setElement(sum, i, j, A_ij + x);
+		}
+	}
+}
+
+int subtractionByScalar(matrix *A, double x, matrix *sub){
+	for(int i=1; i<=A->rows; i++){
+		for(int j=1; j<=A->cols; j++){
+			double A_ij;
+			getElement(A, i, j, &A_ij);
+			setElement(sub, i, j, A_ij - x);
+		}
+	}
+}
+
 int productByScalar(matrix *A, double x, matrix *prod){
 	for(int i=1; i<=A->rows; i++){
 		for(int j=1; j<=A->cols; j++){
@@ -374,6 +395,40 @@ int printLowerTriangularCol(matrix * mtx) {
     	    printf("A[%d,%d] = %f\n", row, col, ELEM(mtx, row, col));
     	  }
   }
+}
+
+// Extract the upper triangular from A and stores it in B
+// k is the elements on and above  the k-th diagonal of A
+// k = 0 is the main diagonal, k > 0 is above the main diagonal
+// k <0 is below the main diagonal
+int getUpperTriangular(matrix *A, matrix *B, int k) {
+  if (!isSquare(A)) return 0;
+  int row, col;
+  // looks at positions above the diagonal
+  for (col = 1; col <= A->cols; col++)
+    for (row = 1; row <= col-k; row++){
+	    double A_ij;
+	    getElement(A, row, col, &A_ij);
+	    setElement(B, row, col, A_ij);
+//    	printf("A[%d,%d] = %f\n", row, col, ELEM(A, row, col));
+    }
+}
+
+// Extract the lower triangular from A and stores it in B
+// k is the elements on and below the k-th diagonal of A
+// k = 0 is the main diagonal, k > 0 is above the main diagonal
+// k <0 is below the main diagonal
+int getLowerTriangular(matrix *A, matrix *B, int k) {
+  if (!isSquare(A)) return 0;
+  int row, col;
+  // looks at positions below the diagonal
+  for (col = 1; col <= A->cols; col++)
+    for (row = A->rows; row >= col-k; row--){
+	    double A_ij;
+	    getElement(A, row, col, &A_ij);
+	    setElement(B, row, col, A_ij);
+//    	printf("A[%d,%d] = %f\n", row, col, ELEM(A, row, col));
+    }
 }
 
 matrix * addElementMatrix(int rows, int cols, matrix * mtx) {
@@ -569,6 +624,46 @@ double normaMatricial1(matrix *A){
 	return maior;
 }
 
+
+typedef struct {
+  double min;
+  int pos;
+} _minElemVec;
+
+_minElemVec getMinElemVec(matrix *A, int col){
+
+	double A_i;
+	double min;
+	int pos = 1;
+
+	getElement(A, col, 1, &min);
+
+	for(int i=1; i<=A->rows; i++){
+		getElement(A, i, col, &A_i);
+		if (A_i < min){
+			min = A_i;
+			pos = i;
+		}
+	}
+	_minElemVec str;
+
+	str.min = min;
+	str.pos = pos;
+
+	return str;
+}
+
+void matrixAbs(matrix *A, matrix *B){
+
+	double A_ij;
+	for(int i=1; i<=A->rows; i++)
+		for(int j=1; j<=A->cols; j++){
+			getElement(A, i, j, &A_ij);
+			setElement(B, i, j, fabs(A_ij));
+		}
+}
+
+
 matrix* matrixRowToVector(matrix *A, int i){
 
 	matrix *vector = newMatrix(A->cols, 1);
@@ -594,6 +689,94 @@ matrix* matrixColToVector(matrix *A, int j){
 
 	return vector;
 }
+
+// Copia a submatriz de A em B.
+void subMatrix(matrix *A, int startRow, int endRow, int startCol, int endCol, matrix *B){
+
+	int b_i = 1;
+	for(int i=startRow; i<=endRow; i++){
+		int b_j = 1;
+		for(int j=startCol; j<=endCol; j++){
+			double A_ij;
+			getElement(A, i, j, &A_ij);
+			setElement(B, b_i, b_j, A_ij);
+			b_j++;
+		}
+//		B->cols = b_j;
+		b_i++;
+	}
+//	B->rows = b_i;
+}
+
+void copyColumn(matrix *A, matrix *c, int j){
+
+	for(int i=1; i<=A->rows; i++){
+		double A_ij;
+		getElement(A, i, j, &A_ij);
+		setElement(c, i, 1, A_ij);
+	}
+}
+
+// copia a linha da matrix a partir do elemento n
+void copyNColumn(matrix *A, matrix *c, int n, int j){
+
+	for(int i=n; i<=A->rows; i++){
+		double A_ij;
+		getElement(A, i, j, &A_ij);
+		//printf("i=%d j=%d = %f\n", i, j, A_ij);
+		//printf("c_%d = %f\n", i-n+1, A_ij);
+		setElement(c, i-n+1, 1, A_ij);
+	}
+}
+
+// se os elementos da matriz A forem menores que o valor tol, os igualamos a 0
+int tolerance(matrix *A, double tol){
+	for(int i=1; i<=A->rows; i++){
+		for(int j=1; j<=A->cols; j++){
+			double A_ij;
+			getElement(A, i, j, &A_ij);
+			A_ij = fabs(A_ij);
+			if(A_ij < tol)
+				setElement(A, i, j, 0);
+		}
+	}
+}
+
+// copy the diagonal of matrix A into vector v
+void diagonalToVector(matrix *A, matrix *v){
+
+	int m = A->rows, n = A->cols;
+	int lower = m < n ? m : n;
+
+	for(int i=1; i<=lower; i++)
+		for(int j=1; j<=lower; j++)
+			if(i==j){
+				double A_ij;
+				getElement(A, i, j, &A_ij);
+				setElement(v, i, 1, A_ij);
+			}
+}
+
+typedef struct {
+  double complex x1;
+  double complex x2;
+} _eqSegGrau;
+
+_eqSegGrau eqSegGrau(double a, double b, double c){
+	
+	_eqSegGrau x;
+	double delta = pow(b, 2) - 4 * a * c;
+//	double complex tmp1 = (-b + csqrt(delta))/(2*a);
+//	double complex tmp2 = (-b + csqrt(delta))/(2*a);
+	x.x1 = (-b + csqrt(delta))/(2*a);
+	x.x2 = (-b - csqrt(delta))/(2*a);
+//	printf("a = %f, b = %f, c = %f, delta = %f, sqrt(delta) = %f + %fi, tmp1 = %f, tmp2 = %f\n", a, b, c, delta, creal(csqrt(delta)), cimag(csqrt(delta)), tmp1, tmp2);
+//	printf("dentro eqSegGrau x1: %f + %fi\n", creal(x.x1), cimag(x.x1));
+//	printf("dentro eqSegGrau x2: %f + %fi\n", creal(x.x2), cimag(x.x2));
+
+	return x;
+}
+
 
 // IMPLEMENTAR POSTO
 // IMPLEMENTAR NORMA

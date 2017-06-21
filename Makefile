@@ -2,7 +2,7 @@ LIBS=-lm
 LDFLAGS=$(LIBS)
 CPPFLAGS="-std=c99"
 
-all: runGauss runGaussP runGaussJordan runLU runCholesky runLaplace runMetodoDasPotencias runJacobi runQR ascii
+all: runGauss runGaussP runGaussJordan runLU runCholesky runLaplace runMetodoDasPotencias runJacobi runQR runHouseholder ascii runHHSimetrica runHHSimetrica2 runHHAssimetrica runHHAssimetrica2 generateMatrix readMatrix
 
 runGauss: matrix.o gauss.o
 	gcc runGauss.c matrix.o  gauss.o -o runGauss $(LDFLAGS)
@@ -30,6 +30,27 @@ runJacobi: jacobi.o
 
 runQR: decomposicaoQR.o
 	gcc runQR.c matrix.o decomposicaoQR.o -o runQR $(LDFLAGS) $(CPPFLAGS)
+
+runHouseholder: householder.o
+	gcc runHouseholder.c matrix.o householder.o -o runHouseholder $(LDFLAGS) $(CPPFLAGS)
+
+runHHSimetrica: householder.o decomposicaoQR.o loadMatrix.o
+	gcc runHHSimetrica.c matrix.o householder.o decomposicaoQR.o loadMatrix.o -o runHHSimetrica $(LDFLAGS) $(CPPFLAGS)
+
+runHHSimetrica2: householder.o decomposicaoQR.o loadMatrix.o decomposicaoQR2.o jacobi.o
+	gcc runHHSimetrica2.c matrix.o householder.o decomposicaoQR.o decomposicaoQR2.o jacobi.o loadMatrix.o -o runHHSimetrica2 $(LDFLAGS) $(CPPFLAGS)
+
+runHHAssimetrica: householder.o decomposicaoQR.o laplace.o
+	gcc runHHAssimetrica.c matrix.o householder.o laplace.o decomposicaoQR.o -o runHHAssimetrica $(LDFLAGS) $(CPPFLAGS)
+
+runHHAssimetrica2: householder.o decomposicaoQR.o laplace.o loadMatrix.o
+	gcc runHHAssimetrica2.c matrix.o householder.o laplace.o decomposicaoQR.o loadMatrix.o -o runHHAssimetrica2 $(LDFLAGS) $(CPPFLAGS)
+
+generateMatrix: 
+	gcc generateMatrix.c  matrix.o $(LDFLAGS) $(CPPFLAGS) -Wno-pointer-to-int-cast -o generateMatrix
+
+readMatrix: 
+	gcc readMatrix.c  matrix.o $(LDFLAGS) $(CPPFLAGS) -Wno-pointer-to-int-cast -o readMatrix 
 
 ascii:
 	gcc ascii.c -o ascii
@@ -76,5 +97,14 @@ jacobi.o:
 decomposicaoQR.o:
 	gcc -c decomposicaoQR.c $(CPPFLAGS)
 
+decomposicaoQR2.o:
+	gcc -c decomposicaoQR2.c $(CPPFLAGS)
+
+householder.o:
+	gcc -c householder.c $(CPPFLAGS)
+
+loadMatrix.o:
+	gcc -c loadMatrix.c $(CPPFLAGS)
+
 clean:
-	-rm -f *.o runGauss runGaussP runGaussJordan runLU runCholesky runLaplace runMetodoDaPotencia runJacobi runQR ascii 
+	-rm -f *.o runGauss runGaussP runGaussJordan runLU runCholesky runLaplace runMetodoDaPotencia runJacobi runQR runHouseholder ascii runHHSimetrica runHHAssimetrica generateMatrix readMatrix runHHSimetrica2 runHHAssimetrica2

@@ -4,6 +4,7 @@
 #include <math.h>
 #include <float.h>
 
+//#define VERBOSE
 
 int jacobi(matrix *A, matrix *e, matrix *V){
 
@@ -12,6 +13,7 @@ int jacobi(matrix *A, matrix *e, matrix *V){
 		return -1;
 	}
 
+#ifdef VERBOSE
 	printf("\nEntrada - Método de Jacobi\n");
 
 	printf("\nA =\n");
@@ -22,6 +24,7 @@ int jacobi(matrix *A, matrix *e, matrix *V){
 
 	printf("\nV =\n");
 	printMatrix(V);
+#endif
 
 	bool changed;
 	int sweeps=0, n=A->rows;
@@ -90,6 +93,7 @@ int jacobi(matrix *A, matrix *e, matrix *V){
 			}
 	}while(changed);
 
+#ifdef VERBOSE
 	printf("\nSaída - Método de Jacobi\n");
 
 	printf("\nA = (should be left-triangular)\n");
@@ -100,7 +104,7 @@ int jacobi(matrix *A, matrix *e, matrix *V){
 
 	printf("\nV =\n");
 	printMatrix(V);
-
+#endif
 //	printf("\nsweeps = %d\n", sweeps);
 
 	return sweeps;

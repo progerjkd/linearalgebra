@@ -26,7 +26,7 @@ int main() {
 	setElement(A, 4, 3,   1);
 	setElement(A, 4, 4,   2);
 
-	householder(A, R, Q);
+	qr(A, Q, R);
 
 
 	matrix *prod = newMatrix(A->rows, A->cols);

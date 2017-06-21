@@ -1,9 +1,7 @@
 #include "matrix.h"
 #include <math.h>
 
-int decomposicaoQR(matrix *A, int n, matrix *L, matrix *U){
-
-}
+//#define VERBOSE
 
 matrix* matrix_minor(matrix *x, int d){
 
@@ -99,7 +97,7 @@ double vnorm(matrix *x, int n){
 }
 
 
-void householder(matrix *M, matrix *R, matrix *Q){
+void qr(matrix *M, matrix *Q, matrix *R){
 
 	matrix *q[M->rows+1];
 	matrix *z = M, *z1;
@@ -110,6 +108,7 @@ void householder(matrix *M, matrix *R, matrix *Q){
 	Q_ADDR = Q;
 	R_ADDR = R;
 
+#ifdef VERBOSE
 	printf("\nEntrada - Decomposição QR\n");
 
 	printf("A =\n");
@@ -120,6 +119,7 @@ void householder(matrix *M, matrix *R, matrix *Q){
 
 	printf("\nR =\n");
 	printMatrix(R);
+#endif
 
 	for(int k=1; k<=M->cols && k<=M->rows - 1; k++){
 		matrix *e = newMatrix(M->rows, 1);
@@ -181,7 +181,9 @@ void householder(matrix *M, matrix *R, matrix *Q){
 	*Q_ADDR = *Q;
 	*R_ADDR = *R;
 
-	printf("\nSaída - Decomposição QR\n");
+#ifdef VERBOSE
+
+	printf("\nSaída - Decomposição QQQQQQQQR\n");
 
 	printf("\nA =\n");
 	printMatrix(M);
@@ -191,5 +193,6 @@ void householder(matrix *M, matrix *R, matrix *Q){
 
         printf("\nR =\n");
         printMatrix(R);
+#endif
 
 }
