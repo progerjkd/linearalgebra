@@ -1,0 +1,21 @@
+time ./runHHSimetrica2 input/50x50_symmetric 
+real    0m14.847s
+user    0m14.855s
+sys     0m0.000s
+
+time ./runHHAssimetrica2 input/50x50_asymmetric 
+real    0m14.780s
+user    0m14.785s
+sys     0m0.004s
+
+time ./runHHSimetrica2 input/100x100_symmetric
+real    3m57.807s
+user    3m57.837s
+sys     0m0.060s
+
+time ./runHHAssimetrica2 input/100x100_asymmetric
+real    3m57.092s
+user    3m57.102s
+sys     0m0.096s
+
+

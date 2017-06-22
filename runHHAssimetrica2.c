@@ -1,5 +1,7 @@
 #include "matrix.h"
 #include <math.h>
+#include <time.h>
+#include <sys/time.h>
 
 #define VERBOSE
 
@@ -9,6 +11,12 @@ int main(int argc, char *argv[]) {
 		printf("usage: %s inputFile\n", argv[0]);
 		exit(1);
 	}
+
+	struct timeval start, stop;
+	double duration;
+
+	gettimeofday(&start, NULL);
+
 	matrix *A, *Hess, *Q, *R;
 	loadMatrix(&A, argv[1]);
 
@@ -77,6 +85,26 @@ int main(int argc, char *argv[]) {
 		}
 		i++;
 	}
+
+        gettimeofday(&stop, NULL);
+        duration = (double)(stop.tv_usec - start.tv_usec) / 1000000 + (double)(stop.tv_sec - start.tv_sec);
+
+        int hour, min, vt;
+        int sec;
+        hour = duration / 3600;
+        vt = (int)duration % 3600;
+        min = vt / 60;
+        sec = vt % 60;
+
+        int intpart = (int)duration;
+        double decpart = duration - intpart;
+        double secd = sec + decpart;
+        if(hour > 0)
+                printf("\nElapsed time: %ldh%ldm%1.3fs\n", hour, min, secd);
+        else
+                printf("\nElapsed time: %ldm%1.3fs\n", min, secd);
+	
+
 
 /*	printf("\nR =\n");
 	printMatrix(R);
