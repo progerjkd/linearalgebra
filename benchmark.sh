@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# run as: ./benchmark.sh | tee log
 for INPUT in `ls -Sr input/*_sym* | grep -v memory`; do
 	echo -e "\nInput file: ${INPUT}"
 	time ./runHHSimetrica2 ${INPUT} &
