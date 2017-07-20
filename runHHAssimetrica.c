@@ -44,7 +44,7 @@ int main() {
 	printf("\nQR decomposition of Hess matrix...\n");
 
 	for (int i=1; i<=50; i++){
-		qr(Hess, Q, R);
+		qrold(Hess, Q, R);
 		product(R, Q, Hess);
 	}
 

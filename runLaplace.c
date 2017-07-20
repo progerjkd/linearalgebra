@@ -31,7 +31,7 @@ int main() {
 	setElement(b, 3, 1,   7);
 	setElement(b, 4, 1, -10);
 
-	printMatrix(A);
+	printMatrix2(A, "A");
 	double det = laplace(A);
 	printf("Determinante: %f\n", det);
 }

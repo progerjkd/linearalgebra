@@ -21,12 +21,38 @@ int main() {
 	setElement(A, 3, 3,  1.757);
 
 
+        printf("\nEntrada - Método de Jacobi\n");
+
+        printf("\nA =\n");
+        printMatrix(A);
+
+        printf("\ne =\n");
+        printMatrix(e);
+
+        printf("\nV =\n");
+        printMatrix(V);
+
+
 	matrix *B;
 	B = copyMatrix(A);
 	sweeps = jacobi(A, e, V);
 
 
-	printf("\n\n\nsweeps = %d\n", sweeps);
+
+        printf("\nSaída - Método de Jacobi\n");
+
+        printf("\nA = (should be left-triangular)\n");
+        printMatrix(A);
+
+        printf("\ne =\n");
+        printMatrix(e);
+
+        printf("\nV =\n");
+        printMatrix(V);
+
+
+
+	printf("\nsweeps = %d\n", sweeps);
 
 	printf("\nV'*A*V (should be diagonal):\n");
 	matrix *Vt, *tmp;

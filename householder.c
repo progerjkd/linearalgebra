@@ -148,3 +148,73 @@ void householder(matrix *A, matrix *HH){
 	printMatrix(HH);
 #endif
 }
+
+matrix *householder2(matrix *A){
+
+#ifdef VERBOSE
+	printf("\nEntrada - Transformação de Householder\n");
+	printMatrix2(A, "A");
+
+#endif
+
+	if(A->rows != A->cols){
+		printf("A matriz A não é quadrada. Abortando a transformação de Householder...\n");
+		return -1;
+	}
+
+
+	int length = A->rows;
+	matrix *v = newMatrix(length, 1);
+	matrix *I = identity2(length);
+	matrix *Aold = copyMatrix(A);
+	matrix *Anew;
+
+
+
+
+	for(int jj=1; jj<=length-2; jj++){
+
+		double S;
+
+		// v(1:jj) = 0;
+		for(int v_j=1; v_j<=jj; v_j++)
+			setElement(v, v_j, 1, 0);
+
+		S = ss(Aold, jj);
+
+		// v(jj+1) = sqrt(.5*(1+abs(Aold(jj+1,jj))/(S+2*EPS)));
+		setElement(v, jj+1, 1, sqrt(.5 * (1+fabs(getElement2(Aold, jj+1, jj)) / (S+2*EPS))));
+
+
+		// v(jj+2:length) = Aold(jj+2:length,jj)*sign(Aold(jj+1,jj)) /(2*v(jj+1)*S+2*EPS);
+		matrix *v1 = newMatrix(Aold->rows - jj + 1, 1);
+		copyNColumn(Aold, v1, jj+2, jj);
+
+		for(int i=jj+2; i<=length; i++){
+			setElement(v, i, 1, getElement2(Aold, i, jj) * sign(Aold, jj+1, jj) / (2 * getElement2(v, jj+1, 1) * S + 2 * EPS));
+		}
+
+		
+		// P = I-2*v*v';
+		matrix *P = subtraction2(I, product2(productByScalar2(v, 2), transpose2(v)));
+
+
+		//Anew = P*Aold*P
+		Anew = product2(product2(P, Aold), P);
+		//Aold = Anew;
+		deleteMatrix(Aold);
+		Aold = copyMatrix(Anew);
+
+	}
+
+	// Anew(abs(Anew(:))<5e-14)=0; % Tolerence.
+	tolerance(Anew, 5E-14);
+
+
+#ifdef VERBOSE
+	printf("\nSaída - Transformação de Householder\n");
+	printMatrix2(A, "A");
+	printMatrix2(Anew, "Anew");
+#endif
+	return Anew;
+}

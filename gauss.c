@@ -5,7 +5,7 @@ int gauss(matrix *A, matrix *x, matrix *b, int n) {
 	int i, j, k;
 	double soma, alfa;
 
-	printf("\nEntrada - Eliminação de Gaussa\n");
+	printf("\nEntrada - Eliminação de Gauss\n");
 
 	printf("\nA =\n");
 	printMatrix(A);

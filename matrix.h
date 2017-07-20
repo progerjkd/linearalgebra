@@ -1,14 +1,33 @@
+#ifndef MATRIX_H	// guardas de cabeçalho, impedem inclusões cíclicas
+#define MATRIX_H
+
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <complex.h>
+#include <stdbool.h>
+
 
 typedef struct {
   int rows;
   int cols;
   double * data;
 } matrix;
+
+
+extern bool __DELETE_norma__;
+extern bool __DELETE_matrixColToVector__;
+extern bool __DELETE_dotProduct2__;
+extern bool __DELETE_product2__;
+extern bool __DELETE_subtraction2__;
+extern bool __DELETE_productByScalar2__;
+extern bool __DELETE_matrixAbs2__;
+extern bool __DELETE_getMinElemVec__;
+extern bool __DELETE_qr__;
+extern bool __DELETE_sum2__;
+
+//bool __MATRIX_DELETE__ = false;
 
 /* Creates a ``rows by cols'' matrix with all values 0.  
  * Returns NULL if rows <= 0 or cols <= 0 and otherwise a
@@ -96,7 +115,7 @@ int isDiagonal(matrix * mtx);
 
 int isUpperTriangular(matrix * mtx);
 
-int diagonal(matrix * v, matrix * mtx);
+int vectorToDiagonal(matrix * v, matrix * mtx);
 
 int isSymmetric(matrix * mtx);
 
@@ -144,7 +163,14 @@ matrix* matrixColToVector(matrix *A, int j);
 
 int jacobi(matrix *A, matrix *e, matrix *V);
 
-void qr(matrix *M, matrix *Q, matrix *R);
+typedef struct {
+	matrix *Q;
+	matrix *R;
+} _qr;
+
+_qr qr(matrix *A);
+void qrold(matrix *M, matrix *Q, matrix *R);
+//void qr(matrix *M, matrix *Q, matrix *R);
 
 void copyColumn(matrix *A, matrix *c, int j);
 
@@ -177,3 +203,31 @@ int loadMatrix(matrix **A, char *input);
 int getLowerTriangular(matrix *A, matrix *B, int k);
 
 int getUpperTriangular(matrix *A, matrix *B, int k);
+matrix *transpose2(matrix * in);
+matrix *sum2(matrix * mtx1, matrix * mtx2);
+matrix *product2(matrix *A, matrix *B);
+double dotProduct2(matrix * v1, matrix * v2);
+matrix *identity2(int order);
+double getElement2(matrix * mtx, int row, int col);
+matrix *subtraction2(matrix *A, matrix *B);
+matrix *division2(matrix *A, matrix *B);
+matrix *sumByScalar2(matrix *A, double x);
+matrix *subtractionByScalar2(matrix *A, double x);
+matrix *productByScalar2(matrix *A, double x);
+matrix *divisionByScalar2(matrix *A, double x);
+matrix *getUpperTriangular2(matrix *A, int k);
+matrix *getLowerTriangular2(matrix *A, int k);
+int matrixSwapLines2(matrix *A, int x, int y);
+matrix *menorPrincipal2(matrix *A, int n);
+matrix *matrixAbs2(matrix *A);
+matrix *subMatrix2(matrix *A, int startRow, int endRow, int startCol, int endCol);
+
+matrix *diagonalToVector2(matrix *A);
+
+matrix *householder2(matrix *A);
+int printMatrix2(matrix * mtx, char *name);
+
+matrix *qr2(matrix *A, double epsilon);
+
+void memoryUsage(void);
+#endif

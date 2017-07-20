@@ -42,7 +42,7 @@ int main() {
 	printf("\nQR decomposition of HH matrix...\n");
 
 	for (int i=1; i<=50; i++){
-		qr(HH, Q, R);
+		qrold(HH, Q, R);
 		product(R, Q, HH);
 	}
 

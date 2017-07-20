@@ -16,11 +16,12 @@ int main(int argc, char *argv[]) {
 
 	gettimeofday(&start, NULL);
 
-	matrix *A, *HH;
-	_qr QR;
+	matrix *A, *HH, *Q, *R;
 
 	loadMatrix(&A, argv[1]);
 	HH = newMatrix(A->rows, A->cols);
+	Q  = newMatrix(A->rows, A->rows);
+	R  = newMatrix(A->rows, A->cols);
 
 #ifdef VERBOSE
 	printMatrix2(A, "A");
@@ -28,41 +29,37 @@ int main(int argc, char *argv[]) {
 	isSymmetric(A) ? printf("\nMatrix A is symmetric\n") : printf("\nMatrix A is Asymmetric\n");
 
 	printf("\nHouseholder transformation: (results in a tridiagonal matrix)\n");
-	//householder(A, HH);
-	HH = householder2(A); // TODO
+	householder(A, HH);
+	//HH = householder2(A);
 
 #ifdef VERBOSE
-	printMatrix2(HH, "HH");
+	printf("\nHH =\n");
+	printMatrix(HH);
 #endif
 
 	printf("\nQR decomposition of HH matrix...\n");
 
-	__DELETE_product2__ = true;
-
 	for (int i=1; i<=50; i++){
-//		printf("i: %d\n", i);
-		QR = qr(HH);
-		deleteMatrix(HH);
-
-		if(i<50)
-			HH = product2(QR.R, QR.Q);
-		else{
-			__DELETE_product2__ = false;
-			HH = product2(QR.R, QR.Q);
-		}
+		printf("qr: %d\n", i);
+		qr(HH, Q, R);
+		product(R, Q, HH);
 	}
 
 #ifdef VERBOSE
-	printMatrix2(HH, "HH");
+	printf("\nHH =\n");
+	printMatrix(HH);
 
-	printMatrix2(QR.Q, "Q");
+	printf("\nQ =\n");
+	printMatrix(Q);
 
 	printf("\nEigenvalues diagonal matrix:\n");
-	printMatrix2(QR.R, "R");
+	printf("\nR =\n");
+	printMatrix(R);
 
-	matrix *v = diagonalToVector2(QR.R);
+	matrix *v = newMatrix(R->rows, 1);
+	diagonalToVector(R, v);
 	printf("\nEigenvalues of matrix A:\n\n");
-	printMatrix2(v, "diag(R)");
+	printMatrix(v);
 #endif
 
 	gettimeofday(&stop, NULL);
@@ -84,5 +81,5 @@ int main(int argc, char *argv[]) {
 		printf("\nElapsed time: %ldm%1.3fs\n", min, secd);
 
 
-	memoryUsage();
+
 }

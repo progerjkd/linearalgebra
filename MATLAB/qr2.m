@@ -28,7 +28,7 @@ while (m>1)
       [j,k]=min([abs(B(m,m)*[1 1]'-S)]);
       
       %QR factorization of B
-      [Q,U]=qr(B-S(k)*eye(m));
+      [Q,U]=mgs(B-S(k)*eye(m));
       
       %Calculate next B
       B=U*Q+S(k)*eye(m);      

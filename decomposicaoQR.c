@@ -3,196 +3,67 @@
 
 //#define VERBOSE
 
-matrix* matrix_minor(matrix *x, int d){
+// Processo de Gram-Schmidt modificado
 
-	matrix *m = newMatrix(x->rows, x->cols);
+bool __DELETE_qr__ = false;
 
-	for(int i=1; i<=d; i++)
-		setElement(m, i, i, 1);
+_qr qr(matrix *A){
 
-	for(int i=d; i<=x->rows; i++)
-		for(int j=d; j<=x->cols; j++){
-			double x_ij;
-			getElement(x, i, j, &x_ij);
-			setElement(m, i, j, x_ij);
-		}
-	return m;
-}
+	int m = A->rows;
+	int n = A->cols;
 
-/* c = a + b * s */
-matrix* vmadd(matrix *a, matrix *b, double s, matrix *c, int n){
-	for (int i=1; i<=n; i++){
-		double a_i, b_i;
-		getElement(a, i, 1, &a_i);
-		getElement(b, i, 1, &b_i);
-		setElement(c, i, 1, a_i + s * b_i);
-		setElement(c, i, 1, a_i + b_i * s);
-	}
+	matrix *V = copyMatrix(A);
 
-	return c;
-}
-
-/* y = x / d */
-matrix* vdiv(matrix *x, double d, matrix *y, int n){
-	for (int i=1; i<=n; i++){
-		double x_i;
-		getElement(x, i, 1, &x_i);
-		setElement(y, i, 1, x_i / d);
-	}
-
-	return y;
-}
-
-/* m = I - v v^T */
-matrix* vmul(matrix *v, int n){
-
-	matrix *x = newMatrix(n, n);
-
-	for(int i=1; i<=n; i++)
-		for(int j=1; j<=n; j++){
-			double v_i, v_j;
-			getElement(v, i, 1, &v_i);
-			getElement(v, j, 1, &v_j);
-			setElement(x, i, j, -2 * v_i * v_j);
-		}
-
-	for (int i=1; i<=n; i++){
-		double x_ii;
-		getElement(x, i, i, &x_ii);
-		setElement(x, i, i, x_ii + 1);
-	}
-
-	return x;
-}
-
-matrix* matrix_mul(matrix *x, matrix *y)
-{       
-	if (x->cols != y->rows)
-		return 0;
-	
-	matrix *r = newMatrix(x->rows, y->cols);
-
-	for(int i=1; i<=x->rows; i++)
-		for (int j=1; j<=y->cols; j++)
-			for (int k=1; k<=x->cols; k++){
-				double x_ik, y_kj, r_ij;
-				getElement(x, i, k, &x_ik);
-				getElement(y, k, j, &y_kj);
-				getElement(r, i, j, &r_ij);
-				setElement(r, i, j, r_ij + x_ik * y_kj);
-			}
-	return r;
-}
-
-
-double vnorm(matrix *x, int n){
-
-	double sum=0;
-	for (int i=1; i<=n; i++){
-		double x_i;
-		getElement(x, i, 1, &x_i);
-		sum += x_i * x_i;
-	}
-	return sqrt(sum);
-}
-
-
-void qr(matrix *M, matrix *Q, matrix *R){
-
-	matrix *q[M->rows+1];
-	matrix *z = M, *z1;
-
-	matrix *Q_ADDR;
-	matrix *R_ADDR;
-
-	Q_ADDR = Q;
-	R_ADDR = R;
+	_qr QR;
+	QR.Q = newMatrix(m, n);
+	QR.R = newMatrix(n, n);
 
 #ifdef VERBOSE
 	printf("\nEntrada - Decomposição QR\n");
 
-	printf("A =\n");
-	printMatrix(M);
+	printMatrix2(A, "A");
+	printMatrix2(QR.Q, "Q");
+	printMatrix2(QR.R, "R");
 
-	printf("\nQ =\n");
-	printMatrix(Q);
-
-	printf("\nR =\n");
-	printMatrix(R);
 #endif
 
-	for(int k=1; k<=M->cols && k<=M->rows - 1; k++){
-		matrix *e = newMatrix(M->rows, 1);
-		matrix *x = newMatrix(M->rows, 1);
-		double a;
+	__DELETE_norma__ = true;
+	__DELETE_dotProduct2__ = true;
+
+	for(int i=1; i<=n; i++){
+		// R(i,i)=norm(V(:,i))
+		setElement(QR.R, i, i, norma(matrixColToVector(V, i), 2));
 		
-		z1 = matrix_minor(z, k);
+		// Q(:,i)=V(:,i)/R(i,i);
+		for(int x=1; x<=m; x++)
+			setElement(QR.Q, x, i, getElement2(V, x, i) / getElement2(QR.R, i, i));
 
-		if(!areEqual(z, M))
-			deleteMatrix(z);
-	
-		z = z1;	
+		for(int j=i+1; j<=n; j++){
+			// R(i,j)=Q(:,i)'*V(:,j);
+			setElement(QR.R, i, j, dotProduct2(matrixColToVector(QR.Q, i), matrixColToVector(V, j)));
 
-		x = matrixColToVector(z, k);
-		a = vnorm(x, M->rows);
+			// V(:,j)=V(:,j)-R(i,j)*Q(:,i);
+			for(int y=1; y<=m; y++)
+				setElement(V, y, j, getElement2(V, y, j) - getElement2(QR.R, i, j) * getElement2(QR.Q, y, i));
+		}
 
-		double m_kk;
-		getElement(M, k, k, &m_kk);
-		if(m_kk > 0)
-			a = -a;
-		
-
-		for(int i=1; i<=M->rows; i++)
-			setElement(e, i, 1, (i == k) ? 1 : 0);
-
-		vmadd(x, e, a, e, M->rows);
-		vdiv(e, vnorm(e, M->rows), e, M->rows);
-		q[k] = vmul(e, M->rows);
-		z1 = matrix_mul(q[k], z);
-		if(!areEqual(z, M))
-			deleteMatrix(z);
-		z = z1;
 	}
-
 	
-	deleteMatrix(z);
-	Q = q[1];	// *
+	deleteMatrix(V);
 
-	R = newMatrix(q[1]->rows, M->cols);
-	R = matrix_mul(q[1], M);
-
-	for(int i=2; i<=M->cols && i<=M->rows-1; i++){
-		z1 = matrix_mul(q[i], Q);
-		if(i>2)
-			deleteMatrix(Q);
-		
-		Q = z1;
-		deleteMatrix(q[i]);
-	}
-	deleteMatrix(q[1]);
-	z = matrix_mul(Q, M);
-	deleteMatrix(R);	//*
-	R = z;
-
-	matrix *Qt = newMatrix(Q->rows, Q->cols);
-	transpose(Q, Qt);
-	Q = copyMatrix(Qt);
-
-	*Q_ADDR = *Q;
-	*R_ADDR = *R;
 
 #ifdef VERBOSE
 
-	printf("\nSaída - Decomposição QQQQQQQQR\n");
+	printf("\nSaída - Decomposição QR\n");
 
-	printf("\nA =\n");
-	printMatrix(M);
-
-	printf("\nQ =\n");
-        printMatrix(Q);
-
-        printf("\nR =\n");
-        printMatrix(R);
+	printMatrix2(A, "A");
+	printMatrix2(QR.Q, "Q");
+	printMatrix2(QR.R, "R");
 #endif
 
+	if(__DELETE_qr__)
+		deleteMatrix(A);
+
+	return QR;
+	
 }

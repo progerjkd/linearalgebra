@@ -17,7 +17,7 @@ A = [     7.5431    -6.9605     5.3938     6.1428     9.0157
 disp('Transforma��o de Householder: (obtemos uma matrix tridiagonal)')
 HH = householder(A)
 for i=1:50,
-[Q,R] = qr(HH); HH = R*Q;
+[Q,R] = clgs(HH); HH = R*Q;
 end
 HH
 Q

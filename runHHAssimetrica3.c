@@ -17,79 +17,63 @@ int main(int argc, char *argv[]) {
 
 	gettimeofday(&start, NULL);
 
-	//matrix *A, *Hess, *Q, *R;
 	matrix *A, *Hess;
 	_qr QR;
+
 	loadMatrix(&A, argv[1]);
 
-	Hess = newMatrix(A->rows, A->cols);
-//	Q  = newMatrix(A->rows, A->rows);
-//	R  = newMatrix(A->rows, A->cols);
+//	Hess = newMatrix(A->rows, A->cols);
 
 #ifdef VERBOSE
-	printf("\nA =\n");
-	printMatrix(A);
+	printMatrix2(A, "A");
 #endif
 	isSymmetric(A) ? printf("\nMatrix A is symmetric\n") : printf("\nMatrix A is Asymmetric\n");
 
 	printf("\nHouseholder transformation: (results in a Hessenberg Matrix)\n");
-	householder(A, Hess);
+	Hess = householder2(A);
+	deleteMatrix(A);
 
 #ifdef VERBOSE
-	printf("\nHess =\n");
-	printMatrix(Hess);
+	printMatrix2(Hess, "householder(A)");
 #endif
 
 	printf("\nQR decomposition of Hess matrix...\n");
 
-	for (int i=1; i<=50; i++){
-//		printf("i: %d\n", i);
+        for (int i=1; i<=50; i++){
+//              printf("i: %d\n", i);
 		QR = qr(Hess);
 		product(QR.R, QR.Q, Hess);
+}
 
-//		qr(Hess, Q, R);
-//		product(R, Q, Hess);
-	}
 
 //	printf("\nMatriz com dentes (ou não) abaixo da diagonal:\n");
 #ifdef VERBOSE
-	printf("\nHess =\n");
-	printMatrix(Hess);
+	printMatrix2(Hess, "Hess");
 #endif
+        double epsilon = 0.001;
+        int n = Hess->rows;
+        int i = 1;
 
-	double epsilon = 0.001;
-	int n = Hess->rows;
-	int i = 1;
+        printf("\nEigenvalues of matrix A:\n\n");
+        while(i <= n){
+                if((i<n) && (fabs(getElement2(Hess, i+1, i)) > epsilon)){
+                        // seleciona a matriz 2x2 formada com os dentes e calcula os autovalores
+                        matrix *M2 = subMatrix2(Hess, i, i+1, i, i+1);
 
-	printf("\nEigenvalues of matrix A:\n\n");
-	while(i <= n){
-		double Hesstmp;
-		getElement(Hess, i+1, i, &Hesstmp);
-		if((i<n) && (fabs(Hesstmp) > epsilon)){
-			// seleciona a matriz 2x2 formada com os dentes e calcula os autovalores
-			matrix *M2 = newMatrix(2, 2);
-			subMatrix(Hess, i, i+1, i, i+1, M2);
-
-			double M2_11, M2_22;
-			getElement(M2, 1, 1, &M2_11);
-			getElement(M2, 2, 2, &M2_22);
-
-
-			_eqSegGrau x;
-			x = eqSegGrau(1, -(M2_11 + M2_22), laplace(M2));
+                        _eqSegGrau x;
+                        x = eqSegGrau(1, -(getElement2(M2, 1, 1) + getElement2(M2, 2, 2)), laplace(M2));
 #ifdef VERBOSE
-			printf("%10.4f %s%fi\n", creal(x.x1), (cimag(x.x1) >= 0) ? "+" : "", cimag(x.x1));
-			printf("%10.4f %s%fi\n", creal(x.x2), (cimag(x.x2) >= 0) ? "+" : "", cimag(x.x2));
+                        printf("%10.4f %s%fi\n", creal(x.x1), (cimag(x.x1) >= 0) ? "+" : "", cimag(x.x1));
+                        printf("%10.4f %s%fi\n", creal(x.x2), (cimag(x.x2) >= 0) ? "+" : "", cimag(x.x2));
 #endif
-			i++;
-		} else {
-			double Hess_ii;
-			getElement(Hess, i, i, &Hess_ii);
+                        i++;
+                } else {
 #ifdef VERBOSE
-			printf("%10.4f\n", Hess_ii);
+                        printf("%10.4f\n", getElement2(Hess, i, i));
 #endif
-		}
-		i++;
+                }
+                i++;
+
 	}
 
         gettimeofday(&stop, NULL);
@@ -112,11 +96,5 @@ int main(int argc, char *argv[]) {
 	
 	memoryUsage();
 
-/*	printf("\nR =\n");
-	printMatrix(R);
 
-	printf("\nMatrix diagonal de autovalores:\n");
-	printf("Q =\n");
-	printMatrix(Q);
-*/
 }
