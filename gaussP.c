@@ -1,7 +1,7 @@
 #include "matrix.h"
 #include <math.h>
 
-int gaussP(matrix *A, matrix *x, matrix *b, int n) {
+void gaussP(matrix *A, matrix *x, matrix *b, int n) {
 
 	int i, j, k;
 	double soma, alfa;

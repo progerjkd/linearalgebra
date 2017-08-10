@@ -1,7 +1,7 @@
 #include "matrix.h"
 #include <math.h>
 
-int gaussJordan(matrix *A, matrix *x, matrix *b, int n) {
+void gaussJordan(matrix *A, matrix *x, matrix *b, int n) {
 
 	int i, j, k;
 	double soma, alfa;

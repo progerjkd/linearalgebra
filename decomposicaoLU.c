@@ -1,6 +1,6 @@
 #include "matrix.h"
 
-int decomposicaoLU(matrix *A, int n, matrix *L, matrix *U){
+void decomposicaoLU(matrix *A, int n, matrix *L, matrix *U){
 
 	int i, j, k;
 	double soma;

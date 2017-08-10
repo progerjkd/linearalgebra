@@ -55,4 +55,6 @@ int retroSubstituicao(matrix *A, matrix *x, matrix *b, int n) {
 
 	printf("\nb =\n");
 	printMatrix(b);
+
+	return 0;
 }

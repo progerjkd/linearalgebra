@@ -159,7 +159,7 @@ matrix *householder2(matrix *A){
 
 	if(A->rows != A->cols){
 		printf("A matriz A não é quadrada. Abortando a transformação de Householder...\n");
-		return -1;
+		return (matrix*)-1;
 	}
 
 

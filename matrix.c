@@ -1,3 +1,4 @@
+#include "matrix.h"
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,20 +9,6 @@
 #include <sys/resource.h>
 #include <errno.h>
 
-
-
-// TO DO: DEFINIR TODOS OS HEADERS NO matrix.h e chamá-lo aqui
-
-// AQUI OU NO HEADER?
-#define ELEM(mtx, row, col) \
-  mtx->data[(col-1) * mtx->rows + (row-1)]
-
-// AQUI OU NO HEADER?
-typedef struct {
-  int rows;
-  int cols;
-  double * data;
-} matrix;
 
 /* Creates a ``rows by cols'' matrix with all values 0.  
  * Returns NULL if rows <= 0 or cols <= 0 and otherwise a
@@ -198,7 +185,7 @@ int transpose(matrix * in, matrix * out) {
 matrix *transpose2(matrix * in) {
 	if (!in){
 		printf("transpose: input matrix is null\n"); 
-		return -1;
+		return (matrix*)-1;
 	}
 
   matrix *out = newMatrix(in->cols, in->rows);
@@ -233,9 +220,9 @@ int sum(matrix * mtx1, matrix * mtx2, matrix * sum) {
 
 bool __DELETE_sum2__ = false;
 matrix *sum2(matrix * mtx1, matrix * mtx2) {
-	if (!mtx1 || !mtx2) return -1;
+	if (!mtx1 || !mtx2) return (matrix*)-1;
 	if (mtx1->rows != mtx2->rows || mtx1->cols != mtx2->cols )
-		return -2;
+		return (matrix*)-2;
 
 	matrix *sum = newMatrix(mtx1->rows, mtx1->cols);
 	int row, col;
@@ -278,11 +265,11 @@ bool __DELETE_product2__ = false;
 matrix *product2(matrix * A, matrix * B) {
 	if (!A || !B){
 		printf("product: input matrix is null\n"); 
-		return -1;
+		return (matrix*)-1;
 	}
 	if (A->cols != B-> rows){
 		printf("product: Incompatible matrix sizes\n"); 
-		return -2;
+		return (matrix*)-2;
 	}
 
 	matrix *prod = newMatrix(A->rows, B->cols);
@@ -367,7 +354,7 @@ int identity(matrix * m) {
 matrix *identity2(int order) {
 	if(order < 1){
 		printf("error: Order of identity matrix must be >= 1\n");
-		return -1;
+		return (matrix*)-1;
 	}
   matrix *eye = newMatrix(order, order);
   int row, col;
@@ -445,17 +432,19 @@ int subtraction(matrix *A, matrix *B, matrix *sub){
 			setElement(sub, i, j, A_ij - B_ij);
 		}
 	}
+
+	return 0;
 }
 
 bool __DELETE_subtraction2__ = false;
 matrix *subtraction2(matrix *A, matrix *B){
 	if (!A || !B){
 		printf("subtraction: input matrix is null\n"); 
-		return -1;
+		return (matrix*)-1;
 	}
 	if (A->cols != B-> cols || A->rows != B->rows){
 		printf("subtraction: Incompatible matrix sizes\n"); 
-		return -2;
+		return (matrix*)-2;
 	}
 
 	matrix *sub = newMatrix(A->rows, A->cols);
@@ -486,16 +475,18 @@ int division(matrix *A, matrix *B, matrix *div){
 			setElement(div, i, j, A_ij / B_ij);
 		}
 	}
+
+	return 0;
 }
 
 matrix *division2(matrix *A, matrix *B){
 	if (!A || !B){
 		printf("division: input matrix is null\n"); 
-		return -1;
+		return (matrix*)-1;
 	}
 	if (A->cols != B-> cols || A->rows != B->rows){
 		printf("division: Incompatible matrix sizes\n"); 
-		return -2;
+		return (matrix*)-2;
 	}
 	matrix *div = newMatrix(A->rows, A->cols);
 	for(int i=1; i<=A->rows; i++){
@@ -517,12 +508,14 @@ int sumByScalar(matrix *A, double x, matrix *sum){
 			setElement(sum, i, j, A_ij + x);
 		}
 	}
+
+	return 0;
 }
 
 matrix *sumByScalar2(matrix *A, double x){
 	if (!A){
 		printf("sumByScalar: input matrix is null\n"); 
-		return -1;
+		return (matrix*)-1;
 	}
 	matrix *sum = newMatrix(A->rows, A->cols);
 	for(int i=1; i<=A->rows; i++){
@@ -543,12 +536,14 @@ int subtractionByScalar(matrix *A, double x, matrix *sub){
 			setElement(sub, i, j, A_ij - x);
 		}
 	}
+
+	return 0;
 }
 
 matrix *subtractionByScalar2(matrix *A, double x){
 	if (!A){
 		printf("sumByScalar: input matrix is null\n"); 
-		return -1;
+		return (matrix*)-1;
 	}
 	matrix *sub = newMatrix(A->rows, A->cols);
 	for(int i=1; i<=A->rows; i++){
@@ -569,13 +564,15 @@ int productByScalar(matrix *A, double x, matrix *prod){
 			setElement(prod, i, j, A_ij * x);
 		}
 	}
+
+	return 0;
 }
 
 bool __DELETE_productByScalar2__ = false;
 matrix *productByScalar2(matrix *A, double x){
 	if (!A){
 		printf("productByScalar: input matrix is null\n"); 
-		return -1;
+		return (matrix*)-1;
 	}
 	matrix *prod = newMatrix(A->rows, A->cols);
 	for(int i=1; i<=A->rows; i++){
@@ -599,12 +596,14 @@ int divisionByScalar(matrix *A, double x, matrix *div){
 			setElement(div, i, j, A_ij / x);
 		}
 	}
+
+	return 0;
 }
 
 matrix *divisionByScalar2(matrix *A, double x){
 	if (!A){
 		printf("divisionByScalar: input matrix is null\n"); 
-		return -1;
+		return (matrix*)-1;
 	}
 	matrix *div = newMatrix(A->rows, A->cols);
 	for(int i=1; i<=A->rows; i++){
@@ -643,6 +642,8 @@ int printLowerTriangular(matrix *A) {
 	for (col = 1; col <= A->cols; col++)
 		for (row = 1; row <= col; row++)
 			printf("A[%d,%d] = %f\n", row, col, ELEM(A, row, col));
+
+	return 0;
 }
 
 int printLowerTriangularCol(matrix *A) {
@@ -660,6 +661,8 @@ int printLowerTriangularCol(matrix *A) {
     	    printf("A[%d,%d] = %f\n", row, col, ELEM(A, row, col));
     	  }
   }
+
+  return 0;
 }
 
 // Extract the upper triangular from A and stores it in B
@@ -677,6 +680,8 @@ int getUpperTriangular(matrix *A, matrix *B, int k) {
 	    setElement(B, row, col, A_ij);
 //    	printf("A[%d,%d] = %f\n", row, col, ELEM(A, row, col));
     }
+
+  return 0;
 }
 
 matrix *getUpperTriangular2(matrix *A, int k) {
@@ -708,6 +713,8 @@ int getLowerTriangular(matrix *A, matrix *B, int k) {
 	    setElement(B, row, col, A_ij);
 //    	printf("A[%d,%d] = %f\n", row, col, ELEM(A, row, col));
     }
+
+  return 0;
 }
 
 matrix *getLowerTriangular2(matrix *A, int k) {
@@ -840,6 +847,8 @@ int matrixSwapLines(matrix *matrix, int n, int x, int y){
 		setElement(matrix, x, i, tmp2);
 		setElement(matrix, y, i, tmp);
 	}
+
+	return 0;
 }
 
 int matrixSwapLines2(matrix *A, int x, int y){
@@ -849,6 +858,8 @@ int matrixSwapLines2(matrix *A, int x, int y){
 		setElement(A, x, i, getElement2(A, y, i));
 		setElement(A, y, i, tmp);
 	}
+
+	return 0;
 }
 
 // copia o menor principal de ordem n da matriz A para a matriz B
@@ -862,6 +873,8 @@ int menorPrincipal(matrix *A, matrix *B, int n){
 			setElement(B, i, j, A_ij);
 		}
 	}
+	
+	return 0;
 }
 
 matrix *menorPrincipal2(matrix *A, int n){
@@ -976,10 +989,11 @@ double normaMatricial1(matrix *A){
 }
 
 
-typedef struct {
+/*typedef struct {
   double min;
   int pos;
 } _minElemVec;
+*/
 
 // retorna o valor e a posição do menor elemento da coluna col da matriz
 bool __DELETE_getMinElemVec__ = false;
@@ -1125,6 +1139,8 @@ int tolerance(matrix *A, double tol){
 				setElement(A, i, j, 0);
 		}
 	}
+
+	return 0;
 }
 
 // copy the diagonal of matrix A into vector v
@@ -1156,11 +1172,11 @@ matrix *diagonalToVector2(matrix *A){
 			
 }
 
-
-typedef struct {
+/*typedef struct {
   double complex x1;
   double complex x2;
 } _eqSegGrau;
+*/
 
 _eqSegGrau eqSegGrau(double a, double b, double c){
 	
@@ -1187,5 +1203,6 @@ _eqSegGrau eqSegGrau(double a, double b, double c){
 void memoryUsage(void){
 	struct rusage r_usage;
 	getrusage(RUSAGE_SELF,&r_usage);
-	printf("Memory usage: %ld Kbytes\n",r_usage.ru_maxrss);
+	//printf("Memory usage: %ld Kbytes\n",r_usage.ru_maxrss);
+	printf("Memory usage: %ld Kbytes\n",r_usage.ru_maxrss/1024);
 }

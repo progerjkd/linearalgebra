@@ -1,15 +1,25 @@
-% assimï¿½trica
+% assimétrica
 clc; clear;
-A = [ 4 6 7 2; 1 2 0 1; -2 0 3 -2; 2 1 -2 -1]
-A = rand(4);
+%A = [ 4 6 7 2; 1 2 0 1; -2 0 3 -2; 2 1 -2 -1]
+%A = randi(10,N,N) - 1;
 
-disp('Transformaï¿½ï¿½o de Householder: (obtemos uma matrix de Hessenberg)')
+A = [
+    8.5918     6.9791    -5.0204     5.6383    -3.2075
+   -6.9048    -7.8113     0.0373    -7.9860     4.0578
+   -4.8421    -6.8497    -2.6461    -8.6561     2.2514
+   -8.1299     8.5784    -6.0981    -5.9687     9.5734
+    5.5302     3.8082     7.7233     4.8667    -7.7790
+]
+
+
+disp('Transformação de Householder: (obtemos uma matrix de Hessenberg)')
 HH = householder(A)
+
 for i=1:50,
 [Q,R] = qr(HH); HH = R*Q;
 end
 
-disp('Matriz com dentes (ou nï¿½o) abaixo da diagonal:')
+disp('Matriz com dentes (ou não) abaixo da diagonal:')
 HH
 
 epsilon = 0.001;

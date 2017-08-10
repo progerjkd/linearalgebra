@@ -2,7 +2,7 @@
 #include <string.h>
 
 
-int loadMatrix(matrix **A, char *input){
+void loadMatrix(matrix **A, char *input){
 
 	FILE *fp;
 

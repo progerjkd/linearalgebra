@@ -2,7 +2,7 @@ LIBS=-lm
 LDFLAGS=$(LIBS)
 CPPFLAGS="-std=c99"
 
-all: runGauss runGaussP runGaussJordan runLU runCholesky runLaplace runMetodoDasPotencias runJacobi runQR runHouseholder ascii runHHSimetrica runHHSimetrica2 runHHSimetrica3 runHHAssimetrica runHHAssimetrica2 runHHAssimetrica3 runHHSimetrica2old generateMatrix readMatrix runNorma
+all: runGauss runGaussP runGaussJordan runLU runCholesky runLaplace runMetodoDasPotencias runJacobi runQR runHouseholder ascii runHHSimetrica runHHSimetrica2 runHHSimetrica3 runHHAssimetrica runHHAssimetrica2 runHHAssimetrica3 runHHSimetrica2old generateMatrix readMatrix runNorma storeByDiagonalGaxpy symmetricStorageGaxpy runMatrix
 
 runGauss: matrix.o gauss.o
 	gcc runGauss.c matrix.o  gauss.o -o runGauss $(LDFLAGS)
@@ -25,7 +25,7 @@ runLaplace: matrix.o laplace.o
 runMetodoDasPotencias: metodoDasPotencias.o
 	gcc runMetodoDasPotencias.c matrix.o metodoDasPotencias.o -o runMetodoDasPotencias $(LDFLAGS)
 
-runJacobi: jacobi.o
+runJacobi: jacobi.o matrix.o jacobi.o
 	gcc runJacobi.c matrix.o jacobi.o -o runJacobi $(LDFLAGS) $(CPPFLAGS)
 
 runQR: decomposicaoQRold.o matrix.o
@@ -58,11 +58,14 @@ runHHAssimetrica2: householder.o decomposicaoQR.o laplace.o loadMatrix.o
 runHHAssimetrica3: householder.o decomposicaoQR.o decomposicaoQR2.o laplace.o loadMatrix.o jacobi.o matrix.o
 	gcc runHHAssimetrica3.c householder.o decomposicaoQR.o decomposicaoQR2.o laplace.o loadMatrix.o jacobi.o matrix.o -o runHHAssimetrica3 $(LDFLAGS) $(CPPFLAGS)
 
-generateMatrix: 
+generateMatrix: matrix.o
 	gcc generateMatrix.c  matrix.o $(LDFLAGS) $(CPPFLAGS) -Wno-pointer-to-int-cast -o generateMatrix
 
-readMatrix: 
+readMatrix: matrix.o
 	gcc readMatrix.c  matrix.o $(LDFLAGS) $(CPPFLAGS) -Wno-pointer-to-int-cast -o readMatrix 
+
+runMatrix: matrix.o
+	gcc runMatrix.c  matrix.o $(LDFLAGS) $(CPPFLAGS) -Wno-pointer-to-int-cast -o runMatrix 
 
 ascii:
 	gcc ascii.c -o ascii
@@ -73,11 +76,11 @@ ascii:
 matrix.o:
 	gcc -c matrix.c $(CPPFLAGS)
 
-storeByDiagonal:
-	gcc storeByDiagonal.c -o storeByDiagonal
+storeByDiagonalGaxpy: matrix.o
+	gcc storeByDiagonalGaxpy.c matrix.o -o storeByDiagonalGaxpy $(LDFLAGS) $(CPPFLAGS)
 
-symmetricStorageGaxpy:
-	gcc symmetricStorageGaxpy.c -o symmetricStorageGaxpy
+symmetricStorageGaxpy: matrix.o
+	gcc symmetricStorageGaxpy.c matrix.o -o symmetricStorageGaxpy $(LDFLAGS) $(CPPFLAGS)
 
 gaussP.o:
 	gcc -c gaussP.c
@@ -122,4 +125,4 @@ loadMatrix.o:
 	gcc -c loadMatrix.c $(CPPFLAGS)
 
 clean:
-	-rm -f *.o runGauss runGaussP runGaussJordan runLU runCholesky runLaplace runMetodoDaPotencia runJacobi runQR runHouseholder ascii runHHSimetrica runHHAssimetrica generateMatrix readMatrix runHHSimetrica2 runHHAssimetrica2 runHHAssimetrica3 runHHSimetrica2old runHHSimetrica3 runNorma
+	-rm -f *.o runGauss runGaussP runGaussJordan runLU runCholesky runLaplace runMetodoDaPotencia runJacobi runQR runHouseholder ascii runHHSimetrica runHHAssimetrica generateMatrix readMatrix runHHSimetrica2 runHHAssimetrica2 runHHAssimetrica3 runHHSimetrica2old runHHSimetrica3 runNorma storeByDiagonalGaxpy symmetricStorageGaxpy runMatrix

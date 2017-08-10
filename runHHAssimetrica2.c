@@ -95,8 +95,8 @@ int main(int argc, char *argv[]) {
         gettimeofday(&stop, NULL);
         duration = (double)(stop.tv_usec - start.tv_usec) / 1000000 + (double)(stop.tv_sec - start.tv_sec);
 
-        int hour, min, vt;
-        int sec;
+        long int hour, min, vt;
+        long int sec;
         hour = duration / 3600;
         vt = (int)duration % 3600;
         min = vt / 60;

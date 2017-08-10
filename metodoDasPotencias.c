@@ -1,7 +1,7 @@
 #include "matrix.h"
 #define LAMBDA "\u019b"
 
-int metodoDasPotencias(matrix *A, matrix *z0, double tol, int maxit, matrix **_z, double *_lambda){
+void metodoDasPotencias(matrix *A, matrix *z0, double tol, int maxit, matrix **_z, double *_lambda){
 
  	printf("\nEntrada - Método das potências\n");
 

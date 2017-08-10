@@ -1,6 +1,6 @@
 #include "matrix.h"
 
-int gauss(matrix *A, matrix *x, matrix *b, int n) {
+void gauss(matrix *A, matrix *x, matrix *b, int n) {
 
 	int i, j, k;
 	double soma, alfa;

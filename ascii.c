@@ -1,6 +1,6 @@
 #include<stdio.h>
 
-void main() {
+int main(){
 
 	int c, i;
 	 
@@ -20,4 +20,5 @@ void main() {
 	  printf ("\n");
 	 }
 
+	 return 0;
 }

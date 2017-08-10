@@ -94,5 +94,5 @@ int decomposicaoCholesky(matrix *A, matrix *S,  matrix *St, int n) {
 	printf("det|A| = det|St| * det|S| \ndet|A| = %f * %f \ndet|A| = %f\n", detSt, detS, detSt * detS);
 
 
-
+	return 0;
 }

@@ -1,4 +1,4 @@
-#ifndef MATRIX_H	// guardas de cabeçalho, impedem inclusões cíclicas
+#ifndef MATRIX_H
 #define MATRIX_H
 
 #include <assert.h>
@@ -14,6 +14,9 @@ typedef struct {
   int cols;
   double * data;
 } matrix;
+
+#define ELEM(mtx, row, col) \
+	  mtx->data[(col-1) * mtx->rows + (row-1)]
 
 
 extern bool __DELETE_norma__;
@@ -155,7 +158,7 @@ int subtraction(matrix *A, matrix *B, matrix *sub);
 
 int division(matrix *A, matrix *B, matrix *div);
 
-int metodoDasPotencias(matrix *A, matrix *z0, double tol, int maxit, matrix **_z, double *_lambda);
+void metodoDasPotencias(matrix *A, matrix *z0, double tol, int maxit, matrix **_z, double *_lambda);
 
 matrix* matrixRowToVector(matrix *A, int i);
 
@@ -198,36 +201,75 @@ _minElemVec getMinElemVec(matrix *A, int col);
 
 void matrixAbs(matrix *A, matrix *B);
 
-int loadMatrix(matrix **A, char *input);
+void loadMatrix(matrix **A, char *input);
 
 int getLowerTriangular(matrix *A, matrix *B, int k);
 
 int getUpperTriangular(matrix *A, matrix *B, int k);
+
 matrix *transpose2(matrix * in);
+
 matrix *sum2(matrix * mtx1, matrix * mtx2);
+
 matrix *product2(matrix *A, matrix *B);
+
 double dotProduct2(matrix * v1, matrix * v2);
+
 matrix *identity2(int order);
+
 double getElement2(matrix * mtx, int row, int col);
+
 matrix *subtraction2(matrix *A, matrix *B);
+
 matrix *division2(matrix *A, matrix *B);
+
 matrix *sumByScalar2(matrix *A, double x);
+
 matrix *subtractionByScalar2(matrix *A, double x);
+
 matrix *productByScalar2(matrix *A, double x);
+
 matrix *divisionByScalar2(matrix *A, double x);
+
 matrix *getUpperTriangular2(matrix *A, int k);
+
 matrix *getLowerTriangular2(matrix *A, int k);
+
+int matrixSwapLines(matrix *matrix, int n, int x, int y);
+
 int matrixSwapLines2(matrix *A, int x, int y);
+
+int menorPrincipal(matrix *A, matrix *B, int n);
+
 matrix *menorPrincipal2(matrix *A, int n);
+
 matrix *matrixAbs2(matrix *A);
+
 matrix *subMatrix2(matrix *A, int startRow, int endRow, int startCol, int endCol);
 
 matrix *diagonalToVector2(matrix *A);
 
 matrix *householder2(matrix *A);
+
 int printMatrix2(matrix * mtx, char *name);
 
 matrix *qr2(matrix *A, double epsilon);
 
 void memoryUsage(void);
+
+void gauss(matrix *A, matrix *x, matrix *b, int n);
+
+void gaussP(matrix *A, matrix *x, matrix *b, int n);
+
+void gaussJordan(matrix *A, matrix *x, matrix *b, int n);
+
+int diagonalContainsZero(matrix * mtx);
+
+int retroSubstituicao(matrix *A, matrix *x, matrix *b, int n);
+
+void decomposicaoLU(matrix *A, int n, matrix *L, matrix *U);
+
+int decomposicaoCholesky(matrix *A, matrix *S,  matrix *St, int n);
+
+
 #endif

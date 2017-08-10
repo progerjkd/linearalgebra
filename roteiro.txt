@@ -1,0 +1,26 @@
+roteiro:
+
+1) mostrar matrix.c e matrix.h, structs
+2) funções básicas de manipulação de matrizes: criar, setar elementos, imprimir, apagar, somar, multiplicar (CRIAR PROGRAMA)
+runNorma
+runGauss 	(retorna triangular superior)
+runGaussP 	(retorna triangular superior)
+runGaussJordan (retorna diagonal unitária)
+runLU
+runCholesky
+runLaplace (mostrar o código laplace.c)
+runMetodoDasPotencias
+runJacobi
+runQR
+runHouseHolder (ativar VERBOSE)
+
+generateMatrix
+readMatrix
+gen.sh
+
+runHHSimetrica3
+runHHAssimetrica3
+
+VERIFICAÇÃO: rodar as mesmas matrizes utilizadas nos dois exemplos acima no MATLAB
+
+-> TOLERÂNCIA
